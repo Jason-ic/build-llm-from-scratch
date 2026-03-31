@@ -70,3 +70,12 @@ python load_pretrain.py
 - 支持 temperature 和 top-k 采样的文本生成
 - 兼容 GPT-2 预训练权重加载
 - 训练过程可视化（loss 曲线）
+
+## TODO
+
+- [ ] Supervised Fine-Tuning (SFT)
+- [ ] Reinforcement Learning from Human Feedback (RLHF)
+- [ ] DPO / PPO 等强化学习对齐方法
+- [ ] 指令微调数据集构建
+- [ ] LoRA / QLoRA 参数高效微调
+- [ ] 模型评估与 Benchmark
