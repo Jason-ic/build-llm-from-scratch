@@ -1,0 +1,5 @@
+__pycache__/
+*.pth
+*.pyc
+.DS_Store
+gpt2/
