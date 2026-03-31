@@ -2,6 +2,8 @@
 
 从零开始构建一个 GPT 风格的大语言模型（LLM），使用 PyTorch 实现，涵盖模型架构、训练、文本生成以及加载 GPT-2 预训练权重。
 
+本项目基于 [*Build a Large Language Model (From Scratch)*](https://www.manning.com/books/build-a-large-language-model-from-scratch) 一书实现。
+
 ## 项目结构
 
 ```
