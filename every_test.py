@@ -1,7 +1,7 @@
 import tiktoken
 import torch
 from llm_arch.gpt import DummyGPTModel
-from main import generate_text_simple
+from train import generate_text_simple
 
 # GPT_CONFIG_124M = "/Users/youfangdajiankang/build-llm-from-scratch/config.yaml"
 GPT_CONFIG_124M = {
@@ -24,27 +24,31 @@ GPT_CONFIG_124M = {
 # print(batch)
 
 # torch.manual_seed(123)
-model = DummyGPTModel(GPT_CONFIG_124M)
-model.eval()
+# model = DummyGPTModel(GPT_CONFIG_124M)
+# model.eval()
 # logits = model(batch)
 # print("Output shape:", logits.shape)
 # print(logits)
-def text_to_token_ids(text, tokenizer):
-    encoded = tokenizer.encode(text, allowed_special={'<|endoftext|>'})
-    encoded_tensor = torch.tensor(encoded).unsqueeze(0)
-    return encoded_tensor
+# def text_to_token_ids(text, tokenizer):
+#     encoded = tokenizer.encode(text, allowed_special={'<|endoftext|>'})
+#     encoded_tensor = torch.tensor(encoded).unsqueeze(0)
+#     return encoded_tensor
 
-def token_ids_to_text(token_ids, tokenizer):
-    flat = token_ids.squeeze(0)
-    return tokenizer.decode(flat.tolist())
+# def token_ids_to_text(token_ids, tokenizer):
+#     flat = token_ids.squeeze(0)
+#     return tokenizer.decode(flat.tolist())
 
-start_context = "Every effort moves you"
-tokenizer = tiktoken.get_encoding("gpt2")
+# start_context = "Every effort moves you"
+# tokenizer = tiktoken.get_encoding("gpt2")
 
-token_ids = generate_text_simple(
-    model=model,
-    idx=text_to_token_ids(start_context, tokenizer),
-    max_new_tokens=10,
-    context_size=GPT_CONFIG_124M["context_length"]
-)
-print("Output text:\n", token_ids_to_text(token_ids, tokenizer))
+# token_ids = generate_text_simple(
+#     model=model,
+#     idx=text_to_token_ids(start_context, tokenizer),
+#     max_new_tokens=10,
+#     context_size=GPT_CONFIG_124M["context_length"]
+# )
+# print("Output text:\n", token_ids_to_text(token_ids, tokenizer))
+
+import pandas as pd
+df = pd.read_csv("/Users/youfangdajiankang/build-llm-from-scratch/classify-datasets/sms_spam_collection/SMSSpamCollection.tsv", sep="\t", header=None, names=["Label", "Text"])
+print(df)
