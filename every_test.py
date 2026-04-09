@@ -49,6 +49,11 @@ GPT_CONFIG_124M = {
 # )
 # print("Output text:\n", token_ids_to_text(token_ids, tokenizer))
 
-import pandas as pd
-df = pd.read_csv("/Users/youfangdajiankang/build-llm-from-scratch/classify-datasets/sms_spam_collection/SMSSpamCollection.tsv", sep="\t", header=None, names=["Label", "Text"])
-print(df)
+# import pandas as pd
+# df = pd.read_csv("/Users/youfangdajiankang/build-llm-from-scratch/classify-datasets/sms_spam_collection/SMSSpamCollection.tsv", sep="\t", header=None, names=["Label", "Text"])
+# print(df)
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if torch.backends.mps.is_available():
+    device = torch.device("mps")
+print("Device:", device)
