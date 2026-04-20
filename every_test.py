@@ -1,7 +1,7 @@
 import tiktoken
 import torch
 from llm_arch.gpt import DummyGPTModel
-from train import generate_text_simple
+from pre_train import generate_text_simple
 
 # GPT_CONFIG_124M = "/Users/youfangdajiankang/build-llm-from-scratch/config.yaml"
 GPT_CONFIG_124M = {

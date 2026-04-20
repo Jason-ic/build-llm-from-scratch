@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 .DS_Store
 gpt2/
+reasoning-model/qwen3/
+*.jsonl

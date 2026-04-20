@@ -10,7 +10,7 @@ from process_script.gpt_download import download_and_load_gpt2
 from llm_arch.gpt import DummyGPTModel
 from load_pretrain import load_weights_into_gpt
 
-from train import calc_loss_loader, train_model_simple
+from pre_train import calc_loss_loader, train_model_simple
 from dataset import train_loader, val_loader, device, val_data, tokenizer
 from data_process import format_input
 

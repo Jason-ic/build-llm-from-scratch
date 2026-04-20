@@ -32,11 +32,15 @@
 │   ├── data_process.py        # 数据格式化与划分
 │   ├── dataset.py             # InstructionDataset 与 collate 函数
 │   └── instruction-data.json  # 指令微调数据集
+├── reasoning-model/
+│   ├── load_model.py          # 加载 Qwen3-0.6B 权重与分词器
+│   ├── load_dataset.py        # 下载/读取 MATH-500 测试集
+│   └── evaluate_model.py      # MATH-500 推理与答案抽取/判分
 ├── classify-datasets/
 │   └── sms_spam_collection/   # SMS 垃圾短信原始数据集
 ├── embedding_text/
 │   └── the-verdict.txt        # 预训练用文本
-├── train.py                   # 模型训练脚本
+├── pre_train.py               # 预训练脚本
 ├── load_pretrain.py           # 加载 GPT-2 预训练权重并生成文本
 ├── every_test.py              # 测试脚本
 ├── config.yaml                # 模型配置 (GPT-2 124M)
@@ -54,7 +58,7 @@ pip install -r requirements.txt
 ### 训练模型
 
 ```bash
-python train.py
+python pre_train.py
 ```
 
 在 `the-verdict.txt` 文本上训练 GPT 模型，训练完成后会保存权重到 `model_and_optimizer.pth`，并绘制训练/验证损失曲线。
@@ -83,6 +87,14 @@ python finetuning_sft/fintune.py
 
 在指令数据集上对 GPT-2 进行指令微调，使模型学会根据指令生成回答。支持 Alpaca 风格的 instruction/input/output 数据格式。
 
+### 推理模型评测 (MATH-500)
+
+```bash
+python reasoning-model/evaluate_model.py
+```
+
+加载 Qwen3-0.6B base 模型在 MATH-500 测试集上逐题流式生成答案，自动从 `\boxed{...}` 抽取最终答案，并通过 sympy 做符号等价判分（支持分数、LaTeX、上下标等归一化）。结果按行写入 `math500-<device>.jsonl`。
+
 ## 模型配置
 
 | 参数 | 值 |
@@ -105,8 +117,9 @@ python finetuning_sft/fintune.py
 
 - [x] 分类微调 — 垃圾短信分类
 - [x] 指令微调 (Instruction Fine-Tuning)
+- [x] 推理模型评测 — Qwen3 + MATH-500
 - [ ] Reinforcement Learning from Human Feedback (RLHF)
 - [ ] DPO / PPO 等强化学习对齐方法
 - [ ] 指令微调数据集构建
 - [ ] LoRA / QLoRA 参数高效微调
-- [ ] 模型评估与 Benchmark
+- [ ] 更多基准测试 (GSM8K, MMLU 等)

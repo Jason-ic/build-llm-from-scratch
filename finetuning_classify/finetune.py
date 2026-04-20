@@ -11,8 +11,8 @@ from torch.utils.data import DataLoader
 from process_script.gpt_download import download_and_load_gpt2
 from llm_arch.gpt import DummyGPTModel
 from load_pretrain import load_weights_into_gpt
-from train import generate_text_simple
-from train import text_to_token_ids, token_ids_to_text
+from pre_train import generate_text_simple
+from pre_train import text_to_token_ids, token_ids_to_text
 
 tokenizer = tiktoken.get_encoding("gpt2")
 # print(tokenizer.encode("<|endoftext|>", allowed_special={"<|endoftext|>"}))
