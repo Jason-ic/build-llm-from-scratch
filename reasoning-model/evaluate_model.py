@@ -15,17 +15,17 @@ from load_model import (
 )
 from load_dataset import load_math500_test
 
-WHICH_MODEL = "base"
+# WHICH_MODEL = "base"
 
 # device = get_device()
-device = torch.device("cpu")
+# device = torch.device("cpu")
 
-model, tokenizer = load_model_and_tokenizer(which_model=WHICH_MODEL, device=device, use_compile=False)
+# model, tokenizer = load_model_and_tokenizer(which_model=WHICH_MODEL, device=device, use_compile=False)
 
-prompt = (
-    r"If $a+b=3$ and $ab=\tfrac{13}{6}$, "
-    r"what is the value of $a^2+b^2$?"
-)
+# prompt = (
+#     r"If $a+b=3$ and $ab=\tfrac{13}{6}$, "
+#     r"what is the value of $a^2+b^2$?"
+# )
 
 # input_token_ids_tensor = torch.tensor(tokenizer.encode(prompt), device=device).unsqueeze(0)
 
@@ -280,11 +280,11 @@ def render_prompt(prompt):
     )
     return template
 
-prompt = (
-    r"If $a+b=3$ and $ab=\tfrac{13}{6}$, "
-    r"what is the value of $a^2+b^2$?"
-)
-prompt_fmt = render_prompt(prompt)
+# prompt = (
+#     r"If $a+b=3$ and $ab=\tfrac{13}{6}$, "
+#     r"what is the value of $a^2+b^2$?"
+# )
+# prompt_fmt = render_prompt(prompt)
 # print(prompt_fmt)
 
 # generate_text = generate_text_stream_concat(model, tokenizer, prompt_fmt, device, max_new_tokens=2048, verbose=True)
@@ -373,11 +373,11 @@ def evaluate_math500_stream(model, tokenizer, device, math_data, out_path=None, 
     print(f"Logs written to: {out_path}")
     return num_correct, num_examples, acc
 
-print("Model:", WHICH_MODEL)
-math_data = load_math500_test()
-num_correct, num_examples, acc = evaluate_math500_stream(
-    model, tokenizer, device,
-    math_data=math_data[:10],
-    max_new_tokens=2048,
-    verbose=False 
-)
+# print("Model:", WHICH_MODEL)
+# math_data = load_math500_test()
+# num_correct, num_examples, acc = evaluate_math500_stream(
+#     model, tokenizer, device,
+#     math_data=math_data[:10],
+#     max_new_tokens=2048,
+#     verbose=False 
+# )

@@ -35,7 +35,8 @@
 ├── reasoning-model/
 │   ├── load_model.py          # 加载 Qwen3-0.6B 权重与分词器
 │   ├── load_dataset.py        # 下载/读取 MATH-500 测试集
-│   └── evaluate_model.py      # MATH-500 推理与答案抽取/判分
+│   ├── evaluate_model.py      # MATH-500 推理与答案抽取/判分
+│   └── inference_time_scaling.py  # 推理时扩展：温度/Top-p 采样 + 自一致性投票
 ├── classify-datasets/
 │   └── sms_spam_collection/   # SMS 垃圾短信原始数据集
 ├── embedding_text/
@@ -95,6 +96,18 @@ python reasoning-model/evaluate_model.py
 
 加载 Qwen3-0.6B base 模型在 MATH-500 测试集上逐题流式生成答案，自动从 `\boxed{...}` 抽取最终答案，并通过 sympy 做符号等价判分（支持分数、LaTeX、上下标等归一化）。结果按行写入 `math500-<device>.jsonl`。
 
+### 推理时扩展 (Inference-Time Scaling)
+
+```bash
+python reasoning-model/inference_time_scaling.py
+```
+
+实现三种推理时解码策略，不改权重就提升推理质量：
+
+- **温度采样** — `logits / T` 后经 softmax，通过 `torch.multinomial` 采样
+- **Top-p (nucleus) 采样** — 只在累积概率 ≤ p 的最小词集合内采样
+- **自一致性投票 (Self-Consistency)** — 同一 prompt 采样多条答案，按 `\boxed{}` 抽取后做多数投票
+
 ## 模型配置
 
 | 参数 | 值 |
@@ -118,6 +131,7 @@ python reasoning-model/evaluate_model.py
 - [x] 分类微调 — 垃圾短信分类
 - [x] 指令微调 (Instruction Fine-Tuning)
 - [x] 推理模型评测 — Qwen3 + MATH-500
+- [x] 推理时扩展 — 温度/Top-p 采样、自一致性投票
 - [ ] Reinforcement Learning from Human Feedback (RLHF)
 - [ ] DPO / PPO 等强化学习对齐方法
 - [ ] 指令微调数据集构建
