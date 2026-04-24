@@ -5,21 +5,21 @@ from load_model import get_device, load_model_and_tokenizer, generate_text_basic
 from evaluate_model import render_prompt, extract_final_candidate
 
 # device = get_device()
-device = torch.device("cpu")
+# device = torch.device("cpu")
 
-model, tokenizer = load_model_and_tokenizer(
-    which_model="base",
-    device=device,
-    use_compile=False
-)
+# model, tokenizer = load_model_and_tokenizer(
+#     which_model="base",
+#     device=device,
+#     use_compile=False
+# )
 
-raw_prompt = (
-    "Half the value of $3x-9$ is $x+37$. "
-    "What is the value of $x$?"
-)
+# raw_prompt = (
+#     "Half the value of $3x-9$ is $x+37$. "
+#     "What is the value of $x$?"
+# )
 
-prompt = render_prompt(raw_prompt)
-print("\n" + prompt)
+# prompt = render_prompt(raw_prompt)
+# print("\n" + prompt)
 
 def generate_text_stream_concat_flex(model, tokenizer, prompt, device, max_new_tokens,
                                      verbose=False, generate_func=None, **generate_kwargs):
@@ -214,15 +214,15 @@ def self_consistency_vote(
 #     show_progress=True,
 # )
 
-results = self_consistency_vote(
-    model,
-    tokenizer,
-    prompt + "\n\nExplain step by step.",
-    device=device,
-    num_samples=5,
-    temperature=0.8,
-    top_p=0.9,
-    max_new_tokens=2048,
-    seed=123,
-    show_progress=True,
-)
+# results = self_consistency_vote(
+#     model,
+#     tokenizer,
+#     prompt + "\n\nExplain step by step.",
+#     device=device,
+#     num_samples=5,
+#     temperature=0.8,
+#     top_p=0.9,
+#     max_new_tokens=2048,
+#     seed=123,
+#     show_progress=True,
+# )
