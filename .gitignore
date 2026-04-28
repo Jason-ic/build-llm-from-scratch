@@ -4,4 +4,6 @@ __pycache__/
 .DS_Store
 gpt2/
 reasoning-model/qwen3/
+reasoning-model/math_train.json
 *.jsonl
+*.csv

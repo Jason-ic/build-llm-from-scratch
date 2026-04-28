@@ -34,10 +34,11 @@
 │   └── instruction-data.json  # 指令微调数据集
 ├── reasoning-model/
 │   ├── load_model.py          # 加载 Qwen3-0.6B 权重与分词器
-│   ├── load_dataset.py        # 下载/读取 MATH-500 测试集
+│   ├── load_dataset.py        # 下载/读取 MATH-500 测试集与 MATH 训练集
 │   ├── evaluate_model.py      # MATH-500 推理与答案抽取/判分
 │   ├── self_consistency.py    # 推理时扩展：温度/Top-p 采样 + 自一致性投票
-│   └── self_refine.py         # 迭代自修正：生成-批判-改进循环
+│   ├── self_refine.py         # 迭代自修正：生成-批判-改进循环
+│   └── rl_grpo.py             # GRPO 强化学习训练 (RLVR)
 ├── classify-datasets/
 │   └── sms_spam_collection/   # SMS 垃圾短信原始数据集
 ├── embedding_text/
@@ -123,6 +124,20 @@ python reasoning-model/self_refine.py
 - **选择 (Select)** — 使用启发式打分或平均对数概率 (`avg_logprob`) 评估新旧答案，保留更优者
 - 支持自定义打分函数（如 `heuristic_score`），可按 `\boxed{}` 存在性、答案长度等加权评分
 
+### 强化学习训练：GRPO (RLVR)
+
+```bash
+python reasoning-model/rl_grpo.py
+```
+
+基于 **Group Relative Policy Optimization (GRPO)** 对 Qwen3-0.6B 在 MATH 训练集上做可验证奖励强化学习 (RLVR)：
+
+- **Rollouts 采样** — 同一题目用温度 + Top-p 采样多条轨迹（默认 `num_rollouts=4`）
+- **可验证奖励 (RLVR)** — 从 `\boxed{...}` 抽取最终答案并与标准答案做符号等价判分，正确给 1，错误给 0
+- **组内相对优势** — 用同一组 rollouts 的奖励均值/标准差做归一化，得到无需 critic 的 advantage：`(r - r̄) / (σ + ε)`
+- **策略梯度** — `loss = -E[advantage · logπ(a|s)]`，对完整生成序列累加 token-level log-prob
+- **训练循环** — AdamW + 梯度裁剪，定期写 CSV 指标 (`step / loss / reward_avg / avg_response_len`) 与 checkpoint，支持 Ctrl-C 中断保存
+
 ## 模型配置
 
 | 参数 | 值 |
@@ -148,6 +163,7 @@ python reasoning-model/self_refine.py
 - [x] 推理模型评测 — Qwen3 + MATH-500
 - [x] 推理时扩展 — 温度/Top-p 采样、自一致性投票
 - [x] 推理时扩展 — 迭代自修正 (Self-Refinement)
+- [x] 强化学习训练 — GRPO (RLVR) 在 MATH 数据集
 - [ ] Reinforcement Learning from Human Feedback (RLHF)
 - [ ] DPO / PPO 等强化学习对齐方法
 - [ ] 指令微调数据集构建
